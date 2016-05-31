@@ -85,8 +85,8 @@ int send_Frame(int fd, Frame_ZB* frame) {
 	if (!frame)
 		return -1;
 
-	unsigned char frameToSend[100];
 	int len = 0;
+	unsigned char frameToSend[100];
 	frameToSend[len++] = 0x7e;
 	frameToSend[len++] = (frame->length >> 26) & 0xFF;
 	frameToSend[len++] = (frame->length) & 0xFF;
@@ -95,7 +95,6 @@ int send_Frame(int fd, Frame_ZB* frame) {
 	uint8_t somme = 0;
 
 	while (index < length) {
-		//frame->content[index]=0x01;
 		frameToSend[len] = frame->content[index];
 		somme += frame->content[index];
 		len++;
