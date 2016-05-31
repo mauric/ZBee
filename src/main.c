@@ -100,7 +100,7 @@ int send_Frame(int fd, Frame_ZB* frame) {
 		len++;
 		index++;
 	}
-	frameToSend[len++] = 0xff - somme;
+	frameToSend[len++] = 0xFF - somme;
 	len_re = len;
 	for (int i = 0; i < len; i++) {
 		printf("%02X ", frameToSend[i]);
@@ -122,18 +122,25 @@ int send_Frame(int fd, Frame_ZB* frame) {
 /*Function for receive a trame zigbee*/
 int receive_Frame(unsigned char*f, int fd, int n, int len) {
 
-	/* printf("Trame recue ");
+	/*//For DEBUG
+   printf("Trame recue ");
 	 for (int i=0;i<len_re; i++) {
 	 printf("%02X ",  frameTorecpt[i]);
 	 }
-	 printf("\n");*/
+	 printf("\n");
+   */
 
-	n = read(fd, f, 3);
-
+  if ( read(fd, f, 3) < 0) {
+		perror("Failed to read serial port");
+		exit(EXIT_FAILURE);
+	}
 	if (f[0] == 0x7e) {
 		len = f[1] << 8 | f[2];
 		fprintf(stderr, "len = %d\n", len);
-		n = read(fd, f + 3, len + 1);
+    if ( read(fd, f + 3, len + 1) < 0) {
+      perror("Failed to read serial port");
+      exit(EXIT_FAILURE);
+    }
 	}
 	for (int i = 0; i < (len + 4); i++) {
 		printf("%02X ", f[i]);
