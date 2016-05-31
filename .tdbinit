@@ -1,0 +1,14 @@
+#! gdb
+# arm-none-linux-gnueabi-gdb
+#gdbserver 192.168.0.1:2345 /usr/bin/sample_app
+#gdbserver localhost:2345 ./sample_app
+#layout src
+#tabset 4
+#fs cmd
+# set path to rootfs
+#set sysroot <chemin absolu>/projet/buildroot-2013.08.1/output/target
+set sysroot /
+#target remote 192.168.0.2:2345
+target remote localhost:2345
+tbreak main
+continue
